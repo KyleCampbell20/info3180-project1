@@ -15,6 +15,7 @@ from .propertyform import Propertyform
 from werkzeug.utils import secure_filename
 from  .models import Property
 from operator import length_hint
+import tkinter as tk
 
 
 ###
