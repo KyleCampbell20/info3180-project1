@@ -6,10 +6,10 @@
 
 {% include 'flash_messages.html' %}
 <div class="container_view">
-    {% for data in prop %}
+    {% for data in propinfo %}
     <div class="grid_view">
         <div class=" card text-left" style="width:20rem;">
-            {% set photo = rootdiri ~ data.photoname %}
+            {% set photo = subdire ~ data.photoname %}
             <img class="card-img-top" src="{{ url_for('static',filename = photo) }}" alt="Card image" width="200" height="200">
             <div class="card-body">
             <h6 class="card-title">{{ data.title }}</h6>

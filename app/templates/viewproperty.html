@@ -2,9 +2,9 @@
 
 {% block main %}
 
-<h1>View Property</h1>
+<h1>Property</h1>
 <div class=" card flex-row">
-    {% set photo = rootdiri ~ viewproperty.photoname %}
+    {% set photo = rootdire ~ viewproperty.photoname %}
 
     <img class="card-img-sm-left" src="{{ url_for('static',filename = photo) }}" alt="Card image" width="350" height="350">
     <div class="card-body">

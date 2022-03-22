@@ -4,13 +4,13 @@ Jinja2 Documentation:    https://jinja.palletsprojects.com/
 Werkzeug Documentation:  https://werkzeug.palletsprojects.com/
 This file creates your application.
 """
-##from msilib.schema import Property
+
 import os
-##from logging.config import _LoggerConfiguration
-##from turtle import title
-##from urllib.request import Request
+
+from turtle import title
+from urllib.request import Request
 from app import app, db
-from flask import flash, render_template, request, redirect, url_for, send_from_directory 
+from flask import flash, render_template, send_from_directory ,request, redirect, url_for
 from .propertyform import Propertyform
 from werkzeug.utils import secure_filename
 from  .models import Property
@@ -72,18 +72,18 @@ def createProperties():
 def displayproperties():
     filename = get_uploaded_images()
     if get_propertyinfo() != []:
-        rootdir = 'uploads/'
+        subdire = 'uploads/'
         length =length_hint(get_propertyinfo())
-        return render_template('propertylist.html', filenames= filename , prop = get_propertyinfo() ,rootdiri = rootdir,len = length)
+        return render_template('properties.html', filenames= filename , propinfo = get_propertyinfo() ,subdire = subdire,len = length)
     else: 
         flash("There are currently no properties in the database")
-        return redirect('propertylist.html')
+        return redirect('properties.html')
 
 
 @app.route('/properties/<int:id>')
 def viewproperty(id):
     viewproperty = Property.query.get_or_404(id)
-    return render_template('viewproperty.html', viewproperty = viewproperty,rootdiri = 'uploads/')
+    return render_template('viewproperty.html', viewproperty = viewproperty, rootdire = 'uploads/')
     
 @app.route('/properties/create/<filename>')
 def get_image(filename):
