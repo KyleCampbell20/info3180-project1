@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block main %}
+<h1>Add New Property</h1>
+
+<div class="card text-left" style="width: 49rem; " id = "card">
+<div class="card-body">
+
+<form method="POST" acion="{{ url_for('createProperties') }}" enctype="multipart/form-data">
+     {% include 'flash_messages.html' %}
+     {{ form.csrf_token }}
+
+     <div class="row mb-3">
+          <div class="form-group">
+               <h5>{{ form.title.label }} </h5>    {{form.title(class="form-group")}}
+          </div>
+     </div>
+
+
+     <div class="row mb-3">
+          <div class="form-group">
+               <h5>{{ form.description.label }}</h5> {{ form.description(class="form-group", rows=5, cols=30,required='required') }}
+          </div>
+     </div>    
+
+     <div class = "row g-4">
+          <div class="col-auto">
+               <div class="form-group">
+                    <h5>{{ form.numberofbedrooms.label }}</h5> {{ form.numberofbedrooms(class="form-group", placeholder="3" , required='required') }}
+               </div>
+          </div>
+     
+
+          <div class="col-auto">
+               <div class="form-group">
+                    <h5>{{ form.numberofbathrooms.label }}</h5>  {{ form.numberofbathrooms(class="form-group", placeholder="2", required='required') }}
+               </div>
+          </div>
+     </div>
+
+     <div class = "row g-4">
+          <div class="col-auto">
+               <div class="form-group">
+                    <h5>{{ form.price.label }}</h5>   {{form.price(class="form-group", placeholder="15,000,000", required='required')}}
+               </div>
+          </div>
+    
+
+          <div class="col-auto">
+               <div class="form-group">
+                    <h5>{{ form.type.label }}</h5> {{ form.type(class="form-group") }}
+               </div>
+          </div>
+     </div>
+
+     <div class="row mb-3">
+          <div class="form-group">
+               <h5>{{ form.location.label }} </h5>{{ form.location(class="form-group", placeholder="10 Waterloo Rd", required='required') }}
+          </div>
+     </div>
+     
+     <div class="row mb-3">
+          <div class="form-group">
+               <h5>{{ form.photo.label }}</h5> {{ form.photo(class="form-control") }}
+          </div><br>
+     </div>
+
+     <div class="col-12">
+          <button type="submit" name="submit" class="btn btn-primary">Add Property</button>
+     </div>
+     </form>
+</div>
+</div>
+
+{% endblock %}

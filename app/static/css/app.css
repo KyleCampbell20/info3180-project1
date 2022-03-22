@@ -1,3 +1,47 @@
 body {
     padding-top: 5rem;
 }
+.form-group{
+   
+  padding: 12px 20px;
+  
+  
+  font-family: 'Times New Roman', Times, serif;
+ 
+}
+
+#btn  {
+  padding: 14px 28px;
+  font-size: 16px;
+  display: block;
+  text-align: center;
+  position:static;
+  background-color: #1b57fc;
+  color: white;
+ 
+}
+
+.type{
+  padding: 5px 10px;
+  border-radius: 6px;
+  margin: 0 5px;
+  background: gold;
+  color: #fff;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  -moz-background-inline-policy: clone;
+}
+
+.price{
+  padding: 5px 10px;
+  border-radius: 6px;
+  margin: 0 5px;
+  background: blue;
+  color: #fff;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  -moz-background-inline-policy: clone;
+}
+.grid{
+  margin: 6px;
+}

@@ -4,9 +4,17 @@ Jinja2 Documentation:    https://jinja.palletsprojects.com/
 Werkzeug Documentation:  https://werkzeug.palletsprojects.com/
 This file creates your application.
 """
-
-from app import app
-from flask import render_template, request, redirect, url_for
+##from msilib.schema import Property
+import os
+##from logging.config import _LoggerConfiguration
+##from turtle import title
+##from urllib.request import Request
+from app import app, db
+from flask import flash, render_template, request, redirect, url_for, send_from_directory 
+from .propertyform import Propertyform
+from werkzeug.utils import secure_filename
+from  .models import Property
+from operator import length_hint
 
 
 ###
@@ -24,7 +32,77 @@ def about():
     """Render the website's about page."""
     return render_template('about.html', name="Mary Jane")
 
+@app.route('/properties/create', methods=['POST', 'GET'])
+def createProperties():
+    myform= Propertyform()
 
+    if request.method == 'GET':
+        return render_template('propertyform.html', form= myform)
+
+    if request.method =='POST' and myform.validate_on_submit():
+            
+        photo = myform.photo.data 
+        filename = secure_filename(photo.filename)
+        photo.save(os.path.join(
+            app.config['UPLOAD_FOLDER'], filename
+        ))
+
+        title = myform.title.data
+        numberofbedrooms = myform.numberofbedrooms.data
+        numberofbathrooms = myform.numberofbathrooms.data
+        location  = myform.location.data
+        type= myform.type.data
+        price = myform.price.data
+        description =  myform.description.data
+
+        propertyvalues = Property(title=title, numberofbedrooms=numberofbedrooms, numberofbathrooms=numberofbathrooms, location=location, type=type, price=price, description=description, photoname= filename )
+        db.session.add(propertyvalues)
+        db.session.commit()
+        
+
+        flash('Property was successfully added')
+        return redirect(url_for('displayproperties'))
+    else:
+            flash('Error, Property was not added')
+    flash_errors(myform)
+    return render_template('propertyform.html', form=myform)
+
+
+@app.route('/properties') 
+def displayproperties():
+    filename = get_uploaded_images()
+    if get_propertyinfo() != []:
+        rootdir = 'uploads/'
+        length =length_hint(get_propertyinfo())
+        return render_template('propertylist.html', filenames= filename , prop = get_propertyinfo() ,rootdiri = rootdir,len = length)
+    else: 
+        flash("There are currently no properties in the database")
+        return redirect('propertylist.html')
+
+
+@app.route('/properties/<int:id>')
+def viewproperty(id):
+    viewproperty = Property.query.get_or_404(id)
+    return render_template('viewproperty.html', viewproperty = viewproperty,rootdiri = 'uploads/')
+    
+@app.route('/properties/create/<filename>')
+def get_image(filename):
+    return send_from_directory(os.path.join(os.getcwd(),app.config['UPLOAD_FOLDER']), path=filename)
+
+  
+
+def get_uploaded_images():
+    rootdir = os.getcwd()
+    file_store=[]
+    for subdir, dirs, files in os.walk('app/static/uploads'):
+        for file in files:
+            file_store.append(os.path.join(rootdir,subdir, file))
+    return file_store
+
+
+def get_propertyinfo():
+    propertyinfo = Property.query.all()
+    return propertyinfo
 ###
 # The functions below should be applicable to all Flask apps.
 ###

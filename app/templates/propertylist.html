@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<h1>Properties</h1>
+
+{% include 'flash_messages.html' %}
+<div class="container_view">
+    {% for data in prop %}
+    <div class="grid_view">
+        <div class=" card text-left" style="width:20rem;">
+            {% set photo = rootdiri ~ data.photoname %}
+            <img class="card-img-top" src="{{ url_for('static',filename = photo) }}" alt="Card image" width="200" height="200">
+            <div class="card-body">
+            <h6 class="card-title">{{ data.title }}</h6>
+            <p class="card-text"></p>
+            </div>
+            <div class="card-body">
+                {{ data.location }}
+                <br>
+                <div class="d-flex justify-content-start"><span class = "price"><h5> <i class="fa-solid fa-money-check-dollar"></i> {{ '$'~data.price }}</h5></span></div>
+            </div>   
+            <div class="card-body">
+                <div class="d-grid gap-2"></div>
+                    <a href="{{ url_for('viewproperty',id=data.id) }}" id = "btn" class="btn btn-primary">View Property</a>
+                </div>
+            </div> 
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
